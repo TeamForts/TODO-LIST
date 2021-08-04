@@ -15,21 +15,20 @@ let selOpt = 3;
 let massiveTasks = [];
 let newmas = [];
 
-//Функция получения времени
+
 function getTime() {
 	let today = new Date();
 	today = (today.getDate() + ".") + (today.getMonth() + 1) + "." + today.getFullYear() + " " + (today.getUTCHours() + 3) + ":" + today.getUTCMinutes();
 	return today;
 }
 
-//Функция добавления задачи
 function addTask() {
 	task.text = document.getElementById("form_text").value;
 	task.priority = document.getElementById("form_priority").value;
 	task.time = getTime();
 	return task;
 }
-//Функция смены цвета
+
 function changeColor(done, id,mas) {
 	if (done == 1) {
 		document.getElementById('done_' + id).style.display = "none";
@@ -60,20 +59,7 @@ function changeColor(done, id,mas) {
 		}
 	}
 }
-/*	#arrow_up_date {
-		display: flex;
-	}
-	#arrow_down_date {
-		display: none;
-	}
-	#arrow_up_priority {
-		display: flex;
-	}
-	#arrow_down_priority {
-		display: none;
-	}*/
 
-//Функция смены класса
 function changeClassSort(id, toggle) {
 	if (id)
 	{
@@ -103,24 +89,24 @@ function changeClassSort(id, toggle) {
 		}
 	}
 }
-//Функция переключения значка стрелочки в сортировке и вызов функций сортировки
+
 function clickSortButtonDate() {
 	toggle_date = !toggle_date;
 	changeClassSort(false,toggle_date);
 	outputMassive(massiveTasks);
 }
-//Функция переключения значка стрелочки в сортировке и вызов функций сортировки
+
 function clickSortButtonPriority() {
 	toggle_priority = !toggle_priority;
 	changeClassSort(true,toggle_priority);
 	outputMassive(massiveTasks);
 }
-//Функция получения задач с сервера
+
 const getResourse = async (url) => {
 	return await fetch(url)
-		.then(response => response.json());
+	.then(result => result.json());
 }
-//Функция отправки задачи на сервер
+
 async function sendResourse(url, task) {
 	let response = await fetch(url, {
 		method: 'POST',
@@ -128,9 +114,9 @@ async function sendResourse(url, task) {
 			'Content-Type': 'application/json;charset=utf-8'
 		},
 		body: JSON.stringify(task)
-	});
+	}).then(result => result.json());
 }
-//Функция обнавления задачи на сервере
+
 async function putResourse(url, newTask) {
 	let response = await fetch(url, {
 		method: 'PUT',
@@ -138,15 +124,20 @@ async function putResourse(url, newTask) {
 			'Content-Type': 'application/json;charset=utf-8'
 		},
 		body: JSON.stringify(newTask)
-	});
+	}).then(result => result.json()
+	.then((result)=> {
+	localStorage.clear;
+	console.log('result ' + result);
+	localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
+	}));
 }
-//Функция удаления задачи на сервере
+
 async function deleteResourse(url) {
 	let response = await fetch(url, {
 		method: 'DELETE',
-	});
+	}).then((result)=> console.log(result));
 }
-//Функция вывода массива в HTML
+
 function outputMassive(mas) {
 	let out_arr = document.getElementById('out_arr');
 	document.getElementById('out_arr').innerHTML = '';
@@ -175,12 +166,11 @@ function outputMassive(mas) {
 					"</div>" +
 				"</div>";
 			changeColor(mas[i].complete, i,mas);
-			putResourse('http://127.0.0.1:3000/items/' + (i + 1), mas[i]);
 		}
 
 	}
 }
-//Функция фильтра по приоретету 
+
 function filterMasPriority(mas, select) {
 	let newMas = [];
 
@@ -202,7 +192,7 @@ function filterMasPriority(mas, select) {
 	if (select == 3) { newMas = massiveTasks }
 	return newMas;
 }
-//Функция сортировки массива по приоритету 0-в порядке возрастания, 1-убывания
+
 function sortMasPriority(mas, select) {
 	let newMas = [];
 	if (select) {
@@ -237,7 +227,7 @@ function sortMasPriority(mas, select) {
 	}
 	return newMas;
 }
-//Функция фильтра завершения/отмены/активности
+
 function filterMasComplete(mas) {
 	let newMas = mas;
 
@@ -268,7 +258,7 @@ function filterMasComplete(mas) {
 	return newMas;
 }
 
-//Функция сортировки массива по дате
+
 function sortMasData(mas, select) {
 	if (select) {
 		mas.sort(function (a, b) {
@@ -283,28 +273,22 @@ function sortMasData(mas, select) {
 	return mas;
 }
 
-//Функция редактирования текста
+
 function changeText(id) {
 	let result = confirm('Сохраняем изменение?');
 	if (result) {
 		let textChange = document.getElementById('textarea_' + id);
 		massiveTasks[id].text = textChange.value;
 		putResourse('http://127.0.0.1:3000/items/' + (id + 1), massiveTasks[id]);
-		localStorage.clear;
-		localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
 		getRosponseFromServer();
 	}
 }
-//Функция удаления задачи
+
 function deleteTask(id) {
-	massiveTasks.splice(id, 1);
-	massiveTasks.splice(id, 1);
-	localStorage.clear;
-	localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
 	deleteResourse('http://127.0.0.1:3000/items/' + (id + 1));
 	getRosponseFromServer();
 }
-//Функция смены завершенности задачи на 'завершенная'
+
 function changeOnDone(id) {
 	massiveTasks[id].complete = 1;
 	changeColor(massiveTasks[id].complete, id);
@@ -313,7 +297,7 @@ function changeOnDone(id) {
 	localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
 	getRosponseFromServer();
 }
-//Функция смены завершенности задачи на 'отмененная'
+
 function changeOnNoneDone(id) {
 	massiveTasks[id].complete = 2;
 	changeColor(massiveTasks[id].complete, id);
@@ -323,7 +307,6 @@ function changeOnNoneDone(id) {
 	getRosponseFromServer();
 }
 
-//Функции для переключения чекбокса и вывода массива
 function changeActive() {
 	active = !active;
 	newmas = massiveTasks;
@@ -346,7 +329,7 @@ function changeCancel() {
 	outputMassive(newmas);
 }
 
-//Функция для селекта фильтра 
+ 
 function changeFilterButton(select) {
 
 	selectedOption = select.options[select.selectedIndex];
@@ -357,7 +340,7 @@ function changeFilterButton(select) {
 
 }
 
-//Функция фильтра по тексту
+
 function filterMasText() {
 	let item = document.getElementById('search').value;
 	if (item.length > 2) {
@@ -374,17 +357,17 @@ function filterMasText() {
 	}
 	outputMassive(newmas);
 }
-//Функция отправки значений на сервер
 function sendToServer() {
 	if (document.getElementById('form_text').value != '') {
 		let task = addTask();
 		sendResourse('http://127.0.0.1:3000/items', task)
+		getRosponseFromServer();
+		document.getElementById('form_text').value = ''
 	}
 	else {
 		alert('Введите текст');
 	}
 }
-//Функция получения данных с сервера и вывод на страницу
 function getRosponseFromServer() {
 	getResourse('http://127.0.0.1:3000/items').then((data) => {
 		localStorage.setItem('myTasks', JSON.stringify(data));
@@ -393,13 +376,11 @@ function getRosponseFromServer() {
 	});
 }
 
-//Функция для сабмита формы
-{
+{ 
 	document.getElementById('submitButton').addEventListener('click', sendToServer);
-
 	getRosponseFromServer();
 	massiveTasks = JSON.parse(localStorage.getItem('myTasks'));
-	newmas = massiveTasks
+	newmas = massiveTasks;
 	outputMassive(newmas);
 
 }
