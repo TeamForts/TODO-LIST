@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<title>Todo list</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="top back_color">
+			<form class="top_form" id="formElem" autocomplete="off">
+				<div class="form_left">
+					<div class="legend">
+						Приоритет:
+					</div>
+					<select class="priority" id="form_priority">
+						<option value="низкий">низкий</option>
+						<option value="средний" selected>средний</option>
+						<option value="высокий">высокий</option>
+					</select>
+				</div>
+				<div class="form_center">
+					<div class="legend">
+						Текст задачи:
+					</div>
+					<input class="form_center_text" type="text" id="form_text" value="" placeholder="Введите текст...">
+				</div>
+				<div class="form_right">
+					<div class="legend">
+					</div>
+					<button type="submit" class="sub" id="submitButton">Добавить задачу</button>
+				</div>
+			</form>
+
+		</div>
+		<div class="middle back_color">
+			<div class="middle_top">
+				<div class="middle_titles_block_left">
+					<div class="title">
+						Фильтр по приоритету:
+					</div>
+					<div class="title">
+						Сортировка по дате:
+					</div>
+				</div>
+				<div class="middle_filter_priority_and_date_block">
+					<div class="filter_title_phone">
+						Фильтр по приоритету:
+					</div>
+					<select class="filter" name="test" onchange="changeFilterButton(this)">
+						<option value="3">любой</option>
+						<option value="0">низкий</option>
+						<option value="1">средний</option>
+						<option value="2">высокий</option>
+					</select>
+					<div class="filter_title_phone">
+						Сортировка по дате:
+					</div>
+					<div class="date" onclick="clickSortButtonDate()" onselectstart="return false"
+						onmousedown="return false">
+						<div class="date_text">дата создания</div>
+						<div id="arrow_up_date">↑</div>
+						<div id="arrow_down_date" class="hide">↓</div>
+
+					</div>
+				</div>
+				<div class="middle_block_right">
+					<div class="middle_block_right_top">
+						<div class="title">
+							Фильтр по статусу:
+						</div>
+						<div class="checkboxes_phone">
+							<div class="checkboxes">
+								<div class="legend">активные</div>
+								<input type="checkbox" class="check" checked onclick="changeActive()">
+							</div>
+							<div class="checkboxes">
+								<div class="legend">отмененные</div>
+								<input type="checkbox" class="check" checked onclick="changeCancel()">
+							</div>
+							<div class="checkboxes">
+								<div class="legend">завершенные</div>
+								<input type="checkbox" class="check" checked onclick="changeEnd()">
+							</div>
+						</div>
+					</div>
+					<div class="middle_block_right_bottom">
+						<div class="title">
+							Сортировка по приоритету:
+						</div>
+						<div class="middle_sort_priority" onclick="clickSortButtonPriority()" onselectstart="return false"
+							onmousedown="return false">
+							<div class="date_text">приоритет</div>
+							<div id="arrow_up_priority">↑</div>
+							<div id="arrow_down_priority" class="hide">↓</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="middle_bottom">
+				<div class="title">
+					Поиск задачи по тексту:
+				</div>
+				<input class="find_text" id="search" type="text" placeholder="Начните вводить текст задачи..."
+					onkeyup="filterMasText()">
+			</div>
+		</div>
+		<div class="bottom back_color" id="out_arr">
+
+		</div>
+	</div>
+</body>
+
+<script src="./js/process.js"></script>
+
+</html>
