@@ -135,7 +135,7 @@ async function putResourse(url, newTask) {
 async function deleteResourse(url) {
 	let response = await fetch(url, {
 		method: 'DELETE',
-	}).then((result)=> console.log(result));
+	});
 }
 
 function outputMassive(mas) {
@@ -279,20 +279,20 @@ function changeText(id) {
 	if (result) {
 		let textChange = document.getElementById('textarea_' + id);
 		massiveTasks[id].text = textChange.value;
-		putResourse('http://127.0.0.1:3000/items/' + (id + 1), massiveTasks[id]);
+		putResourse(`http://127.0.0.1:3000/items/${id}`, massiveTasks[id]);
 		getRosponseFromServer();
 	}
 }
 
 function deleteTask(id) {
-	deleteResourse('http://127.0.0.1:3000/items/' + (id + 1));
+	deleteResourse(`http://127.0.0.1:3000/items/${id}`);
 	getRosponseFromServer();
 }
 
 function changeOnDone(id) {
 	massiveTasks[id].complete = 1;
 	changeColor(massiveTasks[id].complete, id);
-	putResourse('http://127.0.0.1:3000/items/' + (id + 1), massiveTasks[id]);
+	putResourse(`http://127.0.0.1:3000/items/${id}`, massiveTasks[id]);
 	localStorage.clear;
 	localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
 	getRosponseFromServer();
@@ -301,7 +301,7 @@ function changeOnDone(id) {
 function changeOnNoneDone(id) {
 	massiveTasks[id].complete = 2;
 	changeColor(massiveTasks[id].complete, id);
-	putResourse('http://127.0.0.1:3000/items/' + (id + 1), massiveTasks[id]);
+	putResourse(`http://127.0.0.1:3000/items/${id}`, massiveTasks[id]);
 	localStorage.clear;
 	localStorage.setItem('myTasks', JSON.stringify(massiveTasks));
 	getRosponseFromServer();
