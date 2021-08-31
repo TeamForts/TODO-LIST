@@ -1,0 +1,21 @@
+<div class="dialog-container"
+     [style.width]="width"
+     (click)="$event.stopPropagation();">
+
+  <div class="dialog-header">
+    <ng-content select="[header]"></ng-content>
+    <button class="dialog-close-btn"
+            (click)="onDialogClose($event)">
+      x
+    </button>
+  </div>
+
+  <div class="dialog-content">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="dialog-actions"
+       [class.dialog-actions-right]="actionsPosition==='right'">
+    <ng-content select="[actions]"></ng-content>
+  </div>
+</div>

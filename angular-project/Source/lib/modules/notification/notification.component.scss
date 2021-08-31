@@ -1,0 +1,63 @@
+@import "~src/app/cis-common-lib/styles/theming";
+
+$text-font-size: rem(16px);
+
+:host {
+    font-size: $text-font-size;
+    color: #fff;
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    float: left;
+    clear: both;
+
+    .notification-type {
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+
+        .content {
+            padding: 15px;
+            display: flex;
+            flex-direction: row;
+
+            .icon {
+                margin-right: 15px;
+                i {
+                    font-size: 30px;
+                }
+            }
+            .text {
+                flex: 1;
+                min-height: 30px;
+                display: flex;
+                align-items: center;
+            }
+            .button {
+                margin: -5px -5px 0 15px;
+                cursor: pointer;
+                height: 100%;
+                i {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    &.info {
+        .notification-type {
+            background-color: #337ab7;
+        }
+    }
+    &.success {
+        .notification-type {
+            background-color: #5cb85c;
+        }
+    }
+    &.error {
+        .notification-type {
+            background-color: #d9534f;
+        }
+    }
+}

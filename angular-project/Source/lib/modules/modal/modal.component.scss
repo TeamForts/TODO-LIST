@@ -1,0 +1,64 @@
+$border-color: #ccc;
+$padding: 16px;
+$font-size: 16px;
+
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  background-color: rgba(#fff, 0.7);
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog-container {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  border: 1px $border-color solid;
+  max-width: 800px;
+}
+
+.dialog-header {
+  display: flex;
+  border-bottom: 1px $border-color solid;
+  padding: $padding;
+  font-size: 1.2em;
+  align-items: center !important;
+
+  .dialog-close-btn {
+    margin-left: auto;
+    margin-right: 0;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    outline: none;
+    font-size: $font-size;
+
+    &:hover {
+      background-color: #eee;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  padding: $padding;
+}
+
+.dialog-actions {
+  display: flex;
+  padding: 0 $padding $padding;
+
+  &.dialog-actions-right {
+    justify-content: flex-end;
+  }
+}
